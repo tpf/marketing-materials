@@ -1,0 +1,44 @@
+/* TPRF 2026 — generated from tokens.json by bin/build. Do not edit. */
+:root, [data-theme="dark"] {
+  --bg: #121114;
+  --bg-raised: #1a181d;
+  --bg-inset: #1d1b21;
+  --rule: #2c2a30;
+  --rule-strong: #3a3740;
+  --text: #f3f1ee;
+  --text-2: #d6d2cc;
+  --text-3: #bdb8b2;
+  --text-4: #9d98a2;
+  --coral: oklch(0.72 0.2 35);
+  --violet: oklch(0.72 0.2 295);
+  --violet-ink: oklch(0.5 0.2 295);
+  --band-bg: #f3f1ee;
+  --band-text: #121114;
+  --band-rule: #cfcac3;
+  --text-lede: #e4e0da;
+  --text-year-past: #6d6873;
+  --rule-quiet: #232127;
+  --band-field: #faf8f5;
+  --band-text-2: #4a464f;
+  --band-text-3: #3d3a42;
+  --logo-tile: #ffffff;
+  --shadow-menu: 0 30px 60px -20px rgba(0,0,0,.6);
+  --shadow-dialog: 0 40px 80px -20px rgba(0,0,0,.7);
+  --space-touch: 44px;
+  --space-btn: 48px;
+  --space-cta: 56px;
+  --space-card: 24px;
+  --space-cell: 28px;
+  --space-header-x: 40px;
+  --radius-none: 0;
+  --radius-search: 4px;
+  --radius-disc: 50%;
+  --gutter: clamp(20px, 3.2cqi, 40px);
+  --section-pad: clamp(40px, 5cqi, 64px);
+  --stroke-rule: 1px;
+  --stroke-focus: 2px;
+  --stroke-accent: 3px;
+  --stroke-tier: 4px;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
