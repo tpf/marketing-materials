@@ -1,0 +1,34 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;background:var(--bg)}
+.cv{position:relative;width:960px;height:288px;background:var(--bg);overflow:hidden;font-family:var(--font-sans)}
+.cv svg{position:absolute;left:480px;top:0}
+.rule{fill:var(--rule)}.violet{fill:var(--violet)}.coral{fill:var(--coral)}.band{fill:var(--band-bg)}.inset{fill:var(--bg-inset)}.vink{fill:var(--violet-ink)}
+.amp{fill:var(--bg);font-family:var(--font-sans);font-weight:800;font-stretch:118%;font-size:300px}
+.slash{fill:var(--bg);font-family:var(--font-mono);font-size:13px}
+.txt{position:absolute;left:40px;bottom:36px;max-width:440px}
+.nm{margin:0;color:var(--text);font-weight:800;font-stretch:118%;font-size:96px;line-height:.92;letter-spacing:-.03em;text-transform:uppercase}
+.tg{margin:12px 0 0;color:var(--text-3);font-family:var(--font-mono);font-size:13px}
+</style></head><body>
+<div class="cv">
+<svg width="480" height="288" viewBox="0 0 480 288" aria-hidden="true">
+<!--
+blocks: violet 160x288 slab, coral 220x200, band-bg 100x120, bg-inset 100x167, violet-ink 220x87; radius-none; 1px rule gaps (stroke-rule)
+arrangement: flush modular grid, cells divided by 1px rule hairlines, like the site's 1px-gap card grids
+pattern: one oversized "&" (Archivo 800, stretch 118%) in bg, clipped by the coral block: the ampersand of "Perl & Raku" and the poster display face
+scales: stroke-rule 1px gaps; radius-none; type display at 300px; mono path label 13px in bg on violet
+-->
+<defs><clipPath id="c"><rect x="161" y="0" width="219" height="200"/></clipPath></defs>
+<rect class="rule" x="0" y="0" width="480" height="288"/>
+<rect class="violet" x="0" y="0" width="160" height="288"/>
+<rect class="coral" x="161" y="0" width="219" height="200"/>
+<text class="amp" x="178" y="262" clip-path="url(#c)">&amp;</text>
+<rect class="vink" x="161" y="201" width="219" height="87"/>
+<rect class="band" x="381" y="0" width="99" height="120"/>
+<rect class="inset" x="381" y="121" width="99" height="167"/>
+<text class="slash" x="16" y="268">/tprf</text>
+</svg>
+<div class="txt"><p class="nm">TPRF<br>2026</p><p class="tg">The Perl &amp; Raku Foundation</p></div>
+</div>
+</body></html>

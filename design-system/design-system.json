@@ -1,0 +1,49 @@
+{
+  "v": 3,
+  "assetGroups": {
+    "Logos": {
+      "files": {
+        "Perl_Onion_Color.png": {
+          "blob": "e3a635ca725152fed967450fa383a896",
+          "name": "Perl_Onion_Color.png",
+          "size": 55522,
+          "type": "image/png"
+        },
+        "Perl_Onion_Color.svg": {
+          "blob": "ea396dccb0433fbe256fae4d229a647d",
+          "name": "Perl_Onion_Color.svg",
+          "size": 5087,
+          "type": "image/svg+xml"
+        }
+      },
+      "name": "Logos",
+      "order": [
+        "Perl_Onion_Color.svg",
+        "Perl_Onion_Color.png"
+      ],
+      "tile": "m"
+    }
+  },
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-10-10T16:45:00Z",
+    "v": 1
+  },
+  "docs": {
+    "sections": []
+  },
+  "groups": [
+    "Logos"
+  ],
+  "lastChange": {
+    "at": "2026-10-10T16:45:00Z",
+    "by": "Olaf",
+    "note": "Built from the redesign branch: tokens, type, 18 static components, onion logo",
+    "via": "GitHub · tpf/perlfoundation.org@9089894"
+  },
+  "layout": "files",
+  "libraries": [],
+  "namespace": "TPRF",
+  "sections": {},
+  "title": "TPRF 2026"
+}

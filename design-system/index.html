@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TPRF 2026 design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-2);
+    font: 16px/1.6 var(--font-sans);
+  }
+  a { color: var(--coral); text-underline-offset: 3px; }
+  a:hover { text-decoration: none; }
+  :focus-visible { outline: var(--stroke-focus) solid var(--coral); outline-offset: 2px; }
+  code { font: .9em var(--font-mono); color: var(--text); }
+  .mono { font-family: var(--font-mono); }
+
+  .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); min-height: 100vh; }
+  .rail {
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    border-right: var(--stroke-rule) solid var(--rule);
+    padding: 28px 24px;
+  }
+  .rail__title {
+    margin: 0 0 24px; color: var(--text);
+    font-weight: 800; font-stretch: 118%; font-size: 28px; line-height: .95;
+    letter-spacing: -.02em; text-transform: uppercase;
+  }
+  .rail ol { list-style: none; margin: 0; padding: 0; }
+  .rail li a {
+    display: block; padding: 6px 0;
+    font: 13px/1.4 var(--font-mono); color: var(--text-3); text-decoration: none;
+  }
+  .rail li a:hover { color: var(--coral); }
+  .rail ol ol a { padding-left: 14px; font-size: 12px; color: var(--text-4); }
+
+  main { min-width: 0; }
+  section { padding: 56px var(--space-header-x); border-bottom: var(--stroke-rule) solid var(--rule); }
+  .kicker { margin: 0 0 8px; font: 500 13px var(--font-mono); color: var(--violet); }
+  h2.section-title {
+    margin: 0 0 32px; color: var(--text);
+    font-weight: 800; font-stretch: 118%; font-size: clamp(32px, 4.4vw, 56px);
+    line-height: .95; letter-spacing: -.025em; text-transform: uppercase;
+  }
+  h3.group-title {
+    margin: 40px 0 16px; padding-top: 12px; border-top: var(--stroke-rule) solid var(--rule);
+    font: 500 13px var(--font-mono); color: var(--text-4);
+  }
+
+  /* Rendered Markdown */
+  .md { max-width: 880px; }
+  .md h2 {
+    margin: 48px 0 16px; padding-top: 16px; border-top: var(--stroke-rule) solid var(--rule);
+    color: var(--text); font-weight: 800; font-stretch: 112%; font-size: 32px;
+    line-height: 1.05; text-transform: uppercase;
+  }
+  .md h3 { margin: 32px 0 8px; color: var(--text); font-weight: 800; font-stretch: 112%; font-size: 20px; text-transform: uppercase; }
+  .md h1 { display: none; }
+  .md li { margin: 6px 0; }
+  .md strong { color: var(--text); }
+  .md p:first-child { margin-top: 0; }
+
+  /* Previews */
+  .frame { position: relative; overflow: hidden; border: var(--stroke-rule) solid var(--rule); background: var(--bg); }
+  .frame iframe { display: block; border: 0; transform-origin: 0 0; background: var(--bg); }
+
+  /* Colour */
+  .grid { display: grid; gap: 1px; background: var(--rule); border: var(--stroke-rule) solid var(--rule); }
+  .swatches { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+  .swatch { background: var(--bg); display: flex; flex-direction: column; }
+  .swatch__chip { height: 96px; border-bottom: var(--stroke-rule) solid var(--rule); }
+  .swatch__body { padding: 14px 16px 18px; font-size: 13.5px; line-height: 1.5; color: var(--text-3); }
+  .swatch__name { margin: 0 0 2px; font: 600 14px var(--font-mono); color: var(--text); }
+  .swatch__value { margin: 0 0 8px; font: 12px var(--font-mono); color: var(--text-4); }
+
+  /* Type */
+  .type-row { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; padding: 24px 0; border-top: var(--stroke-rule) solid var(--rule); }
+  .type-row__meta { font: 12px/1.6 var(--font-mono); color: var(--text-4); }
+  .type-row__meta b { display: block; font-weight: 600; font-size: 14px; color: var(--text); }
+  .type-row__sample { color: var(--text); overflow-wrap: anywhere; }
+  .type-row__usage { margin: 10px 0 0; font: 13.5px/1.5 var(--font-sans); color: var(--text-3); letter-spacing: 0; text-transform: none; font-stretch: 100%; }
+
+  /* Token tables */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-top: var(--stroke-rule) solid var(--rule); }
+  th { font: 500 12px var(--font-mono); color: var(--text-4); }
+  td:first-child { font: 600 13px var(--font-mono); color: var(--text); white-space: nowrap; }
+  td.value { font: 12.5px var(--font-mono); color: var(--text-3); white-space: nowrap; }
+  td.demo { width: 140px; }
+  .bar { height: 12px; background: var(--violet); }
+  .radius-demo { width: 48px; height: 48px; background: var(--bg-inset); border: var(--stroke-rule) solid var(--rule-strong); }
+  .shadow-demo { width: 96px; height: 48px; background: var(--bg-raised); margin: 8px 0 24px; }
+
+  /* Logos */
+  .logos { grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); margin-bottom: 24px; }
+  .logo { background: var(--bg); }
+  .logo__tile { display: grid; place-items: center; height: 200px; background: var(--logo-tile); }
+  .logo__tile img { width: 120px; height: 120px; }
+  .logo__name { margin: 0; padding: 12px 16px; font: 12.5px var(--font-mono); color: var(--text-3); }
+
+  /* Components */
+  .component { padding: 40px 0; border-top: var(--stroke-rule) solid var(--rule); }
+  .component__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 16px; }
+  .component__name { margin: 0; color: var(--text); font-weight: 800; font-stretch: 112%; font-size: 30px; line-height: 1; text-transform: uppercase; }
+  .component__sub { font: 13px var(--font-mono); color: var(--violet); }
+  .component .md { margin-top: 24px; }
+
+  footer { padding: 32px var(--space-header-x); font: 12.5px/1.7 var(--font-mono); color: var(--text-4); }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .rail { position: static; height: auto; border-right: 0; border-bottom: var(--stroke-rule) solid var(--rule); }
+    .rail ol ol { display: none; }
+    section, footer { padding-inline: 20px; }
+    .type-row { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="data.js"></script>
+</head>
+<body>
+<div class="layout">
+  <nav class="rail" aria-label="Sections">
+    <p class="rail__title" id="title"></p>
+    <ol id="nav"></ol>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const ds = window.DESIGN_SYSTEM;
+  const main = document.getElementById('main');
+  const nav = document.getElementById('nav');
+
+  if (!ds) {
+    main.innerHTML = '<section><p>data.js is missing. Run <code>perl bin/build</code> in this folder.</p></section>';
+    return;
+  }
+
+  const hasMarked = typeof window.marked !== 'undefined';
+  const md = (text) => hasMarked ? marked.parse(text || '') : '<pre>' + esc(text || '') + '</pre>';
+  const mdInline = (text) => hasMarked ? marked.parseInline(text || '') : esc(text || '');
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function el(tag, attrs, html) {
+    const node = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) node.setAttribute(k, v);
+    if (html !== undefined) node.innerHTML = html;
+    return node;
+  }
+
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  function addSection(id, path, title, children) {
+    const section = el('section', { id: id });
+    section.append(el('p', { class: 'kicker' }, esc(path)), el('h2', { class: 'section-title' }, esc(title)));
+    const item = el('li');
+    item.append(el('a', { href: '#' + id }, esc(path)));
+    if (children && children.length) {
+      const sub = el('ol');
+      for (const c of children) {
+        const li = el('li');
+        li.append(el('a', { href: '#' + c.id }, esc(c.label)));
+        sub.append(li);
+      }
+      item.append(sub);
+    }
+    nav.append(item);
+    main.append(section);
+    return section;
+  }
+
+  // A preview is a small document styled by tokens.css and bundle.css, which
+  // we inject. Previews with a fixed layout width are scaled down to fit.
+  function preview(card, name) {
+    const frame = el('div', { class: 'frame' });
+    const iframe = el('iframe', { title: name + ' preview', loading: 'lazy' });
+    const inject =
+      '<base href="components/' + name + '/">' +
+      '<link rel="stylesheet" href="../../tokens.css">' +
+      '<link rel="stylesheet" href="../../components/bundle.css">';
+    let html = card.preview.replace(/<html(?=[\s>])/i, '<html data-theme="dark"');
+    html = /<head>/i.test(html) ? html.replace(/<head>/i, '<head>' + inject) : inject + html;
+    iframe.srcdoc = html;
+
+    let contentHeight = card.height;
+    function layout() {
+      const available = frame.clientWidth;
+      if (!available) return;
+      const width = card.width || available;
+      const scale = Math.min(1, available / width);
+      iframe.style.width = width + 'px';
+      iframe.style.height = contentHeight + 'px';
+      iframe.style.transform = scale < 1 ? 'scale(' + scale + ')' : '';
+      frame.style.height = Math.ceil(contentHeight * scale) + 'px';
+    }
+    function measure() {
+      try {
+        const doc = iframe.contentDocument;
+        const h = Math.max(doc.documentElement.scrollHeight, doc.body ? doc.body.scrollHeight : 0);
+        if (h) contentHeight = Math.max(card.height, h);
+      } catch (e) {
+        // Some browsers isolate srcdoc frames under file://; keep the card's height.
+      }
+      layout();
+    }
+    iframe.addEventListener('load', () => {
+      measure();
+      try { iframe.contentDocument.fonts.ready.then(measure); } catch (e) {}
+    });
+    new ResizeObserver(layout).observe(frame);
+    frame.append(iframe);
+    return frame;
+  }
+
+  document.getElementById('title').textContent = ds.title;
+  document.title = ds.title + ' design system';
+
+  // Overview: cover and brand book
+  const overview = addSection('overview', '/overview', ds.title);
+  // The cover is laid out at a fixed 960px and scaled to fit.
+  if (ds.cover) overview.append(preview(Object.assign({ width: 960 }, ds.cover), 'Cover'));
+  const book = el('div', { class: 'md' }, md(ds.readme));
+  book.style.marginTop = '40px';
+  overview.append(book);
+
+  // Colour
+  const tokens = ds.tokens;
+  const theme = tokens.color.themes[0].id;
+  const value = (t) => typeof t.value === 'string' ? t.value : (t.value[theme] ?? Object.values(t.value)[0]);
+  const colour = addSection('colour', '/colour', 'Colour');
+  const swatches = el('div', { class: 'grid swatches' });
+  for (const t of tokens.color.tokens) {
+    const card = el('div', { class: 'swatch' });
+    const chip = el('div', { class: 'swatch__chip' });
+    chip.style.background = 'var(--' + t.name + ')';
+    card.append(chip, el('div', { class: 'swatch__body' },
+      '<p class="swatch__name">' + esc(t.name) + '</p>' +
+      '<p class="swatch__value">' + esc(value(t)) + '</p>' + mdInline(t.usage)));
+    swatches.append(card);
+  }
+  colour.append(swatches);
+
+  // Type
+  const typeSection = addSection('type', '/type', 'Type');
+  for (const group of tokens.type.groups) {
+    typeSection.append(el('h3', { class: 'group-title' }, esc('/' + slug(group.name))));
+    for (const s of group.styles) {
+      const row = el('div', { class: 'type-row' });
+      const meta = [s.fontSize, s.lineHeight, s.fontWeight, s.letterSpacing].filter((v) => v !== undefined).join(' · ');
+      row.append(el('div', { class: 'type-row__meta' }, '<b>' + esc(s.name) + '</b>' + esc(meta)));
+      const sample = el('div', { class: 'type-row__sample' });
+      const text = el('div', {}, esc(s.sample || 'The Perl & Raku Foundation'));
+      const usage = s.usage || '';
+      const stretch = /stretch (\d+)/i.exec(usage);
+      Object.assign(text.style, {
+        fontFamily: 'var(--font-' + (s.family || group.family) + ')',
+        fontSize: 'min(' + s.fontSize + ', 11vw)',
+        lineHeight: String(s.lineHeight),
+        fontWeight: String(s.fontWeight),
+        letterSpacing: s.letterSpacing || 'normal',
+        fontStretch: stretch ? stretch[1] + '%' : '100%',
+        textTransform: /uppercase/i.test(usage) ? 'uppercase' : 'none',
+      });
+      sample.append(text, el('p', { class: 'type-row__usage' }, mdInline(usage)));
+      row.append(sample);
+      typeSection.append(row);
+    }
+  }
+
+  // Spacing, radius, layout, stroke, shadow
+  const families = [
+    ['spacing', 'Spacing', (t) => '<div class="bar" style="width:var(--' + t.name + ')"></div>'],
+    ['radius', 'Radius', (t) => '<div class="radius-demo" style="border-radius:var(--' + t.name + ')"></div>'],
+    ['layout', 'Layout', () => ''],
+    ['stroke', 'Stroke', (t) => '<div class="bar" style="height:var(--' + t.name + ');width:100%"></div>'],
+    ['shadow', 'Shadow', (t) => '<div class="shadow-demo" style="box-shadow:var(--' + t.name + ')"></div>'],
+  ].filter(([key]) => tokens[key] && tokens[key].tokens.length);
+  const scales = addSection('scales', '/scales', 'Space & shape',
+    families.map(([key, label]) => ({ id: 'scale-' + key, label: label })));
+  for (const [key, label, demo] of families) {
+    scales.append(el('h3', { class: 'group-title', id: 'scale-' + key }, '/' + key));
+    const rows = tokens[key].tokens.map((t) =>
+      '<tr><td>' + esc(t.name) + '</td><td class="value">' + esc(value(t)) + '</td>' +
+      '<td class="demo">' + demo(t) + '</td><td>' + mdInline(t.usage) + '</td></tr>').join('');
+    scales.append(el('div', { class: 'table-wrap' },
+      '<table><thead><tr><th>name</th><th>value</th><th></th><th>usage</th></tr></thead><tbody>' + rows + '</tbody></table>'));
+  }
+
+  // Assets
+  if (ds.assets.length) {
+    const assets = addSection('assets', '/assets', 'Logos & assets');
+    for (const group of ds.assets) {
+      assets.append(el('h3', { class: 'group-title' }, '/' + esc(slug(group.group))));
+      const grid = el('div', { class: 'grid logos' });
+      for (const f of group.files) {
+        grid.append(el('div', { class: 'logo' },
+          '<div class="logo__tile"><img src="' + esc(f.path) + '" alt=""></div>' +
+          '<p class="logo__name"><a href="' + esc(f.path) + '">' + esc(f.name) + '</a></p>'));
+      }
+      assets.append(grid);
+      if (group.readme) assets.append(el('div', { class: 'md' }, md(group.readme)));
+    }
+  }
+
+  // Components, grouped in the order each group first appears
+  const groups = [];
+  for (const c of ds.components) {
+    const name = c.group || 'Other';
+    let g = groups.find((x) => x.name === name);
+    if (!g) groups.push(g = { name: name, items: [] });
+    g.items.push(c);
+  }
+  const comps = addSection('components', '/components', 'Components',
+    ds.components.map((c) => ({ id: 'c-' + slug(c.name), label: c.name })));
+  for (const g of groups) {
+    comps.append(el('h3', { class: 'group-title' }, '/' + esc(slug(g.name))));
+    for (const c of g.items) {
+      const article = el('article', { class: 'component', id: 'c-' + slug(c.name) });
+      const head = el('div', { class: 'component__head' },
+        '<h3 class="component__name">' + esc(c.name) + '</h3>' +
+        (c.subtitle ? '<span class="component__sub">' + esc(c.subtitle) + '</span>' : ''));
+      article.append(head, preview(c, c.name));
+      if (c.readme) article.append(el('div', { class: 'md' }, md(c.readme.replace(/^#\s.*\n+/, ''))));
+      comps.append(article);
+    }
+  }
+
+  const footer = el('footer', {},
+    'Source files: README.md, tokens.json, components/, assets/. ' +
+    'After changing them, run <code>perl bin/build</code> to regenerate tokens.css and data.js.');
+  main.append(footer);
+
+  if (location.hash) {
+    const target = document.getElementById(location.hash.slice(1));
+    if (target) target.scrollIntoView();
+  }
+})();
+</script>
+</body>
+</html>
